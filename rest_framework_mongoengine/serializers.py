@@ -222,8 +222,10 @@ class DocumentSerializer(serializers.ModelSerializer):
             try:
                 field = self.fields[key]
 
+                if value is None:
+                    me_data[key] = value
                 # for EmbeddedDocumentSerializers, call recursive_save
-                if isinstance(field, EmbeddedDocumentSerializer):
+                elif isinstance(field, EmbeddedDocumentSerializer):
                     me_data[key] = field.recursive_save(value)
 
                 # same for lists of EmbeddedDocumentSerializers i.e.
